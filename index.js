@@ -2,6 +2,12 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const connection = require("./database/database");
+const CategoriesController =  require("./categories/CategotirsController");
+const ArticlesController = require("./articles/ArticlesController");
+
+const Article = require("./articles/Article");
+const Category = require("./categories/Category");
+
 //view engine
 app.set('view engine','ejs');
 //static
@@ -13,11 +19,16 @@ app.use(bodyParser.json());
 connection
 .authenticate()
 .then(()=>{
-    console("conectado ao bd");
+    console.log("conectado ao bd");
 }).catch((error)=>{
     console.log(error);
 });
-//rotas
+//Rotas
+// Importando rotas de suas classes Controller
+app.use("/",CategoriesController);
+app.use("/",ArticlesController);
+//------------X---------------
+
 app.get("/",(req,res)=>{
     res.render("index");
 });
