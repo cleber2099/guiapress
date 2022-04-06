@@ -4,9 +4,10 @@ const bodyParser = require("body-parser");
 const connection = require("./database/database");
 const CategoriesController =  require("./categories/CategotirsController");
 const ArticlesController = require("./articles/ArticlesController");
-
+const UserController = require("./user/UserController");
 const Article = require("./articles/Article");
 const Category = require("./categories/Category");
+const User = require("./user/User");
 
 //view engine
 app.set('view engine','ejs');
@@ -27,6 +28,7 @@ connection
 // Importando rotasController
 app.use("/",CategoriesController);
 app.use("/",ArticlesController);
+app.use("/",UserController);
 //------------X---------------
 
 app.get("/",(req,res)=>{
