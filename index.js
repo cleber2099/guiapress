@@ -8,9 +8,19 @@ const UserController = require("./user/UserController");
 const Article = require("./articles/Article");
 const Category = require("./categories/Category");
 const User = require("./user/User");
+const session = require("express-session");
 
 //view engine
 app.set('view engine','ejs');
+//sessions
+//redis
+app.use(session({
+    secret: "qualquercoisa",
+    cookie: {
+        maxAge: 250000000
+    }
+}));
+
 //static
 app.use(express.static('public'));
 //body-parser
@@ -30,6 +40,26 @@ app.use("/",CategoriesController);
 app.use("/",ArticlesController);
 app.use("/",UserController);
 //------------X---------------
+
+app.get("/session",(req,res)=>{
+    req.session.treinamento = "NodeJS";
+    req.session.ano = 2020;
+    req.session.email = "cleber@email.com";
+    req.session.user = {
+        name: "Cleber",
+        email: "cleber@email.com",
+        id: 10
+    };
+    res.send("ok");
+});
+app.get("/leitura",(req,res)=>{
+    res.json({
+        treinamento: req.session.treinamento,
+        ano: req.session.ano,
+        email: req.session.email,
+        user: req.session.user
+    })
+});
 
 app.get("/",(req,res)=>{
     Article.findAll({
